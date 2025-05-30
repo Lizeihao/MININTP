@@ -1,4 +1,3 @@
-```markdown
 # Code Repository for ICML 2025 Paper  
 **Title:** [On the Generalization Ability of Next-Token-Prediction Pretraining]  
 
