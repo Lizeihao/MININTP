@@ -361,7 +361,7 @@ def main(args):
             wandb.login(key=WANDB_API_KEY)
         if trainer.model_engine.global_rank == 0:
             args.wandb_run_name = f"MiniLLM-{args.model_number}-{trainer.trainable_params}B\
-                    -Epoch-{trainer.current_epoch}-step-{trainer.global_step}-m-{args.max_seq_len}\
+                    -Epoch-{trainer.current_epoch}-step-{trainer.global_step}-m-{args.max_train_seq_len}\
                     -d-{args.hidden_size}-L-{args.num_hidden_layers}-H-{args.num_attention_heads}-s-{args.data_size}"
             wandb.init(project=args.wandb_project, name=args.wandb_run_name)
         else:

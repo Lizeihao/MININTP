@@ -5,13 +5,12 @@ cd home/.../MININTP
 # input your api key first
 export WANDB_API_KEY=""
 
-
 CHECK_PATH="./output/pretrain/miniNTP-0/tokenizer.json"
 if [ ! -f "$CHECK_PATH" ]; then
     echo "start train miniNTP-0"
     deepspeed --master_port 27500 --include localhost:0,1,2,3,4,5,6,7 ./trainer/ntp_pretrain.py \
         --deepspeed_config ./deepspeed_config/ds_config.json \
-        --max_seq_len 512 \
+        --max_train_seq_len 512 \
         --hidden_size 512 \
         --num_hidden_layers 8 \
         --num_attention_heads 8 \
