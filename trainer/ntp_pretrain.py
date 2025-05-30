@@ -83,7 +83,6 @@ class Trainer:
 
     def deepspeed_init(self):
         """Initialize Deepspeed engine"""
-        # Get data loader configuration
         ds_config = json.load(open(self.args.deepspeed_config, 'r', encoding="utf-8"))
         ds_config["train_micro_batch_size_per_gpu"] = self.args.per_device_train_batch_size
         ds_config["gradient_accumulation_steps"] = self.args.gradient_accumulation_steps
@@ -119,13 +118,13 @@ class Trainer:
         self.train_dataset = PretrainDataset(
             self.args.pretrain_data_path,
             self.tokenizer,
-            max_length=self.args.max_seq_len,
+            max_length=self.args.max_train_seq_len,
             data_size=self.args.data_size
         )
         self.test_dataset = PretrainDataset(
             self.args.test_data_path,
             self.tokenizer,
-            max_length=512
+            max_length=self.args.max_test_seq_len
         )
 
         world_size = torch.distributed.get_world_size()
@@ -398,7 +397,8 @@ def parse_args():
     # Data parameters
     parser.add_argument("--pretrain_data_path", type=str, required=True)
     parser.add_argument("--test_data_path", type=str, required=True)
-    parser.add_argument("--max_seq_len", type=int, default=512)
+    parser.add_argument("--max_train_seq_len", type=int, default=512)
+    parser.add_argument("--max_test_seq_len", type=int, default=512)
     parser.add_argument("--data_size", type=float, default=1.0)
     parser.add_argument(
         "--per_device_train_batch_size",

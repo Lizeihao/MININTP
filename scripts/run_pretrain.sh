@@ -4,10 +4,9 @@ cd home/.../MININTP
 
 # input your api key first
 export WANDB_API_KEY=""
-export TORCH_CUDA_ARCH_LIST=""
 
 
-CHECK_PATH="./out/pretrain/miniNTP-0/tokenizer.json"
+CHECK_PATH="./output/pretrain/miniNTP-0/tokenizer.json"
 if [ ! -f "$CHECK_PATH" ]; then
     echo "start train miniNTP-0"
     deepspeed --master_port 27500 --include localhost:0,1,2,3,4,5,6,7 ./trainer/ntp_pretrain.py \
@@ -16,7 +15,7 @@ if [ ! -f "$CHECK_PATH" ]; then
         --hidden_size 512 \
         --num_hidden_layers 8 \
         --num_attention_heads 8 \
-        --per_device_train_batch_size 32 \
+        --per_device_train_batch_size 16 \
         --gradient_accumulation_steps 8 \
         --learning_rate 5e-4 \
         --data_size 1.0 \
